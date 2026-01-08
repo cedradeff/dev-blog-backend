@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="{% static 'styles.min.css'%}">
   </head>
   <body>
+  {% for post in most_popular_posts %}
+    {{ post.title }}<br>
+  {% endfor %}
     <!--================Header Menu Area =================-->
     <header class="header_area">
       <div class="main_menu">
@@ -58,47 +61,37 @@
       <!--================Hero Banner end =================-->  
 
       <!--================ Blog slider start =================-->
-      <section>
-        <div class="container">
-          <div class="d-flex">
-            <div class="flex-fill" style="margin-right: 30px;">
-              <div class="card blog__slide text-center">
-                <div class="blog__slide__img">
-                  <img class="card-img rounded-0" src="{% static 'img/blog/blog-slider/blog-slide1.png' %}" alt="">
-                </div>
-                <div class="blog__slide__content">
-                  <h3><a href="#">New york fashion week's continued the evolution</a></h3>
-                  <p>2 days ago</p>
-                </div>
-              </div>
-            </div>
+<section>
+  <div class="container">
+    <div class="d-flex">
 
-            <div class="flex-fill" style="margin-right: 30px;">
-              <div class="card blog__slide text-center">
-                <div class="blog__slide__img">
-                  <img class="card-img rounded-0" src="{% static 'img/blog/blog-slider/blog-slide2.png' %}" alt="">
-                </div>
-                <div class="blog__slide__content">
-                  <h3><a href="#">New york fashion week's continued the evolution</a></h3>
-                  <p>2 days ago</p>
-                </div>
-              </div>
-            </div>
+      {% for post in most_popular_posts %}
+        <div class="flex-fill" {% if not forloop.last %}style="margin-right: 30px;"{% endif %}>
+          <div class="card blog__slide text-center">
+            <div class="blog__slide__img">
 
-            <div class="flex-fill">
-              <div class="card blog__slide text-center">
-                <div class="blog__slide__img">
-                  <img class="card-img rounded-0" src="{% static 'img/blog/blog-slider/blog-slide3.png' %}" alt="">
-                </div>
-                <div class="blog__slide__content">
-                  <h3><a href="#">New york fashion week's continued the evolution</a></h3>
-                  <p>2 days ago</p>
-                </div>
-              </div>
+              {% if post.image_url %}
+                <img class="card-img rounded-0" src="{{ post.image_url }}" alt="">
+              {% else %}
+                <img class="card-img rounded-0" src="{% static 'img/blog/blog-slider/blog-slide1.png' %}" alt="">
+              {% endif %}
+
+            </div>
+            <div class="blog__slide__content">
+              <h3>
+                <a href="{% url 'post_detail' post.slug %}">
+                  {{ post.title }}
+                </a>
+              </h3>
+              <p>{{ post.published_at|date:"j F Y" }}</p>
             </div>
           </div>
         </div>
-      </section>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
       <!--================ Blog slider end =================-->
 
       <!--================ Start Blog Post Area =================-->
